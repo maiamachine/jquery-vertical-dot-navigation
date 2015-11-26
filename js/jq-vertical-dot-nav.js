@@ -8,7 +8,8 @@
 		dot_color: "#fff",
 		nav_color: "#666"
 	}
- 
+
+
     $.fn.verticalDotNav = function(options) {
 
     	$.extend(default_options, options);
@@ -37,7 +38,7 @@
             nav += "<li class='dot' data-target='section-"+index+"'></li>";  
         });
 
-        console.log(sections_arr);
+      
 
         nav += "</ul>";
         
@@ -69,6 +70,7 @@
         }
 
     	jq_nav.css(nav_styles);
+
         jq_dot.each(function(index){
 
         	$(this).on("mouseover", function(){
@@ -100,31 +102,36 @@
         	 
         })
 
+        var checkScrollPos = function() {
+
+			var scroll_pos = $(window).scrollTop();
+
+	    	for(var i=sections_arr.length - 1; i > -1; i--){
+	    		if(sections_arr[i].offset < scroll_pos) {
+
+	    			target_dot = $(".vertical-dot-nav .dot[data-target='"+sections_arr[i].name+"']");
+	    			jq_dot.removeClass("active");
+	    			jq_dot.css("background-color", "transparent");
+	    			target_dot.addClass("active");
+	    			target_dot.css("background-color", default_options.dot_color);
+
+	    			return;
+	    		}
+	    	}
+		}
+ 
+
         $(window).scroll(function(){
 
         	if(click_scroll) {
         		return;
         	} else {
-
-        		var scroll_pos = $(window).scrollTop();
-
-	        	for(var i=sections_arr.length - 1; i > -1; i--){
-	        		if(sections_arr[i].offset < scroll_pos) {
-
-	        			target_dot = $(".vertical-dot-nav .dot[data-target='"+sections_arr[i].name+"']");
-	        			jq_dot.removeClass("active");
-	        			jq_dot.css("background-color", "transparent");
-	        			target_dot.addClass("active");
-	        			target_dot.css("background-color", default_options.dot_color);
-	        			console.log(sections_arr[i].name);
-
-	        			return;
-	        		}
-	        	}
+        		checkScrollPos();
         	}
 
-        
         })
+
+        checkScrollPos();
 
         return this;
     };
