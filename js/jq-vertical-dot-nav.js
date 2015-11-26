@@ -21,7 +21,8 @@
     		nav = "<ul class='vertical-dot-nav'>",
     		dot_styles = {},
     		sections_arr = [],
-    		window_height = $(window).height();
+    		window_height = $(window).height(),
+    		click_scroll = false;
 
  
         this.each(function(index) {
@@ -29,11 +30,14 @@
             	container_offset = container.offset().top;
 
             sections_arr.push({
+            	name : "section-" + index,
             	offset : container_offset
             });
-            
-            nav += "<li class='dot'></li>";  
+
+            nav += "<li class='dot' data-target='section-"+index+"'></li>";  
         });
+
+        console.log(sections_arr);
 
         nav += "</ul>";
         
@@ -78,17 +82,48 @@
         	 $(this).on("click", function(){
 
         	 	var target_section = sections_arr[index].offset;
-
+        	 	click_scroll = true;
         		jq_dot.removeClass("active");
         		jq_dot.css("background-color", "transparent");
         		$(this).addClass("active");
         		$(this).css("background-color", default_options.dot_color);
  	 
         	 	$('html,body').animate({
-			        scrollTop: target_section
-			    }, default_options.scroll_speed); 	
+			        scrollTop: target_section + 1
+			    }, default_options.scroll_speed); 
+
+        	 	setTimeout(function(){ 
+        	 		click_scroll = false; 
+        	 	}, default_options.scroll_speed);
+			    
         	 })
         	 
+        })
+
+        $(window).scroll(function(){
+
+        	if(click_scroll) {
+        		return;
+        	} else {
+
+        		var scroll_pos = $(window).scrollTop();
+
+	        	for(var i=sections_arr.length - 1; i > -1; i--){
+	        		if(sections_arr[i].offset < scroll_pos) {
+
+	        			target_dot = $(".vertical-dot-nav .dot[data-target='"+sections_arr[i].name+"']");
+	        			jq_dot.removeClass("active");
+	        			jq_dot.css("background-color", "transparent");
+	        			target_dot.addClass("active");
+	        			target_dot.css("background-color", default_options.dot_color);
+	        			console.log(sections_arr[i].name);
+
+	        			return;
+	        		}
+	        	}
+        	}
+
+        
         })
 
         return this;
