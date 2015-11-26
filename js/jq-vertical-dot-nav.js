@@ -30,7 +30,6 @@
             	offset : container_offset
             });
             
-            container.append(container_offset);
             nav += "<li class='dot'></li>";  
         });
 
@@ -68,7 +67,12 @@
         	$(this).on("mouseover", function(){
         		$(this).css("background-color", default_options.dot_color);
         	}).on("mouseout", function(){
-        		$(this).css("background-color", "transparent");
+        		if($(this).hasClass("active")){
+        			$(this).css("background-color", default_options.dot_color);
+        		} else {
+        			$(this).css("background-color", "transparent");
+        		}
+        		
         	})
         	 
         	 $(this).on("click", function(){
@@ -76,8 +80,9 @@
         	 	var target_section = sections_arr[index].offset;
 
         		$(".vertical-dot-nav .dot").removeClass("active");
+        		$(".vertical-dot-nav .dot").css("background-color", "transparent");
         		$(this).addClass("active");
-        		$(".vertical-dot-nav .active").css("background-color", default_options.dot_color);
+        		$(this).css("background-color", default_options.dot_color);
  	 
         	 	$('html,body').animate({
 			        scrollTop: target_section
