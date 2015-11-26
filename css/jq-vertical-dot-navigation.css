@@ -1,8 +1,9 @@
 .vertical-dot-nav {
 	position: fixed;
-    width: 40px;
-    right: 0;
     list-style-type:none;
+    background-color:red;
+    padding: 0 10px 10px 10px;
+    opacity:.8;
     -webkit-margin-before: 0em;
     -webkit-margin-after: 0em;
     -webkit-margin-start: 0px;
@@ -11,24 +12,16 @@
 }
 
 .vertical-dot-nav .dot {
-	width: 10px;
-    height: 10px;
-    border-radius: 50%;
     background-color: transparent;
-    border: 2px #000 solid;
+    border-width: 2px;
+    border-style: solid;
     padding:2px;
     margin-top:10px;
+    margin-left:10px;
     cursor:pointer;
 }
 
-.vertical-dot-nav .dot.active, .vertical-dot-nav .dot:hover {
-	width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #000;
-    border: 2px #000 solid;
-    padding: 2px;
-}
+
 
  
 
