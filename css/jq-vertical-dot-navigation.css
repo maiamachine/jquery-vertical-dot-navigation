@@ -1,3 +1,7 @@
+::-webkit-scrollbar { 
+    display: none; 
+}
+
 .vertical-dot-nav {
 	position: fixed;
     list-style-type:none;
