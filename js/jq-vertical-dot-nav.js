@@ -105,9 +105,10 @@
         var checkScrollPos = function() {
 
 			var scroll_pos = $(window).scrollTop();
+		
 
 	    	for(var i=sections_arr.length - 1; i > -1; i--){
-	    		if(sections_arr[i].offset < scroll_pos) {
+	    		if(sections_arr[i].offset <= scroll_pos) {
 
 	    			target_dot = $(".vertical-dot-nav .dot[data-target='"+sections_arr[i].name+"']");
 	    			jq_dot.removeClass("active");
