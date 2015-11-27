@@ -56,7 +56,11 @@ $('section').verticalDotNav({
 
 ## Sample
 
-This repository includes a sample page with three sections and the vertical dot navigation.  All images in this repository are for demonstration only.  The styles.css file is also intended for the demo and is not required to use the plugin.
+This repository includes a sample page with three sections and the vertical dot navigation.  All images in this repository are for demonstration only.  The styles.css file is also intended for the demo and is not required to use the plugin.  The sample uses Bootstrap which is not required and is simly used for styling.
+
+## Responsive
+
+This plugin works in responsive designs although you may want ot adjust the styling under certain breakpoints depending on your design.
 
 
 

@@ -121,6 +121,10 @@
 	    	}
 		}
  
+ 		$(window).resize(function(){
+ 			window_height = $(window).height();
+ 			jq_nav.css("top", (window_height/2) - (nav_height/2));
+ 		})
 
         $(window).scroll(function(){
 
