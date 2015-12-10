@@ -16,9 +16,10 @@
 
     	var nav_height,
     		nav_pos_top, 
-    		jq_dot,
+    		jq_dots,
     		jq_nav,
     		nav_styles = {},
+            assignStyles,
     		nav = "<ul class='vertical-dot-nav'>",
     		dot_styles = {},
     		sections_arr = [],
@@ -38,40 +39,37 @@
             nav += "<li class='dot' data-target='section-"+index+"'></li>";  
         });
 
-      
-
         nav += "</ul>";
         
         $("body").append(nav);
 
     	jq_nav = $(".vertical-dot-nav"),
-    	jq_dot = $(".vertical-dot-nav .dot");
+    	jq_dots = $(".vertical-dot-nav .dot");
 
-        dot_styles["width"] = default_options.dot_size + "px";
-       	dot_styles["height"] = default_options.dot_size + "px";
-       	dot_styles["border-color"] = default_options.dot_color;
-
-        if(default_options.dot_style === "circle") {
-        	dot_styles["border-radius"] = "50%";
-        }
-
-        jq_dot.css(dot_styles);
         nav_height = jq_nav.height();
         nav_pos_top = (window_height/2) - (nav_height/2);
+
+        dot_styles["width"] = default_options.dot_size + "px";
+       	dot_styles["height"] = dot_styles["width"];
+       	dot_styles["border-color"] = default_options.dot_color;
+        dot_styles["border-radius"] = default_options.dot_style === "circle" ? "50%" : "100%";
         nav_styles["top"] = nav_pos_top + "px";
         nav_styles["background-color"] = default_options.nav_color;
- 
-        if(default_options.align === "left") {
-        	nav_styles["left"] = 0;
-        	nav_styles["border-radius"] = "0 10px 10px 0";
-        } else {
-        	nav_styles.right = 0;
-        	nav_styles["border-radius"] = "10px 0 0 10px";
-        }
+        nav_styles["left"] = default_options.align === "left" ? 0 : "auto";
+        nav_styles["right"] = default_options.align === "right" ? 0 : "auto";
+        nav_styles["border-radius"] = default_options.align === "left" ? "0 10px 10px 0" : "10px 0 0 10px";
 
+        jq_dots.css(dot_styles);
     	jq_nav.css(nav_styles);
 
-        jq_dot.each(function(index){
+        assignStyles = function(target) {
+            jq_dots.removeClass("active");
+            jq_dots.css("background-color", "transparent");
+            target.addClass("active");
+            target.css("background-color", default_options.dot_color);
+        }
+
+        jq_dots.each(function(index){
 
         	$(this).on("mouseover", function(){
         		$(this).css("background-color", default_options.dot_color);
@@ -84,11 +82,10 @@
         	 $(this).on("click", function(){
 
         	 	var target_section = sections_arr[index].offset;
+                var target = $(this);
+
         	 	click_scroll = true;
-        		jq_dot.removeClass("active");
-        		jq_dot.css("background-color", "transparent");
-        		$(this).addClass("active");
-        		$(this).css("background-color", default_options.dot_color);
+                assignStyles(target);
  	 
         	 	$('html,body').animate({
 			        scrollTop: target_section + 1
@@ -96,10 +93,8 @@
 
         	 	setTimeout(function(){ 
         	 		click_scroll = false; 
-        	 	}, default_options.scroll_speed);
-			    
+        	 	}, default_options.scroll_speed); 
         	 })
-        	 
         })
 
         var checkScrollPos = function() {
@@ -107,30 +102,20 @@
 			var scroll_pos = $(window).scrollTop();
 
               if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-
                     target_dot = $(".vertical-dot-nav .dot[data-target='"+sections_arr[sections_arr.length - 1].name+"']");
-                    jq_dot.removeClass("active");
-                    jq_dot.css("background-color", "transparent");
-                    target_dot.addClass("active");
-                    target_dot.css("background-color", default_options.dot_color);
-                    
+                    assignStyles(target_dot);
+
                 } else {
                     for(var i=sections_arr.length - 1; i > -1; i--){
                         if(sections_arr[i].offset <= scroll_pos) {
 
                             target_dot = $(".vertical-dot-nav .dot[data-target='"+sections_arr[i].name+"']");
-                            jq_dot.removeClass("active");
-                            jq_dot.css("background-color", "transparent");
-                            target_dot.addClass("active");
-                            target_dot.css("background-color", default_options.dot_color);
+                            assignStyles(target_dot);
 
                             return;
                         }
                     }
                 }
-		
-
-	    	
 		}
  
  		$(window).resize(function(){
@@ -149,7 +134,6 @@
         })
 
         checkScrollPos();
-
         return this;
     };
 
