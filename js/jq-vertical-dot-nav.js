@@ -33,7 +33,8 @@
 
             sections_arr.push({
             	name : "section-" + index,
-            	offset : container_offset
+            	offset : container_offset,
+                ref : container
             });
 
             nav += "<li class='dot' data-target='section-"+index+"'></li>";  
@@ -121,16 +122,22 @@
  		$(window).resize(function(){
  			window_height = $(window).height();
  			jq_nav.css("top", (window_height/2) - (nav_height/2));
+
+
+
+            for(var i=0;i<sections_arr.length;i++){
+                sections_arr[i].offset =  sections_arr[i].ref.offset().top;
+            }
+
+             console.log(sections_arr);
  		})
 
         $(window).scroll(function(){
-
         	if(click_scroll) {
         		return;
         	} else {
         		checkScrollPos();
         	}
-
         })
 
         checkScrollPos();
