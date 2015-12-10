@@ -105,20 +105,32 @@
         var checkScrollPos = function() {
 
 			var scroll_pos = $(window).scrollTop();
+
+              if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+
+                    target_dot = $(".vertical-dot-nav .dot[data-target='"+sections_arr[sections_arr.length - 1].name+"']");
+                    jq_dot.removeClass("active");
+                    jq_dot.css("background-color", "transparent");
+                    target_dot.addClass("active");
+                    target_dot.css("background-color", default_options.dot_color);
+                    
+                } else {
+                    for(var i=sections_arr.length - 1; i > -1; i--){
+                        if(sections_arr[i].offset <= scroll_pos) {
+
+                            target_dot = $(".vertical-dot-nav .dot[data-target='"+sections_arr[i].name+"']");
+                            jq_dot.removeClass("active");
+                            jq_dot.css("background-color", "transparent");
+                            target_dot.addClass("active");
+                            target_dot.css("background-color", default_options.dot_color);
+
+                            return;
+                        }
+                    }
+                }
 		
 
-	    	for(var i=sections_arr.length - 1; i > -1; i--){
-	    		if(sections_arr[i].offset <= scroll_pos) {
-
-	    			target_dot = $(".vertical-dot-nav .dot[data-target='"+sections_arr[i].name+"']");
-	    			jq_dot.removeClass("active");
-	    			jq_dot.css("background-color", "transparent");
-	    			target_dot.addClass("active");
-	    			target_dot.css("background-color", default_options.dot_color);
-
-	    			return;
-	    		}
-	    	}
+	    	
 		}
  
  		$(window).resize(function(){
