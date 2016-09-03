@@ -1,6 +1,5 @@
 # jQuery Vertial Dot Navigation
 
-[View Example](http://thislittlemachine.com/jquery-vertical-dot-navigation/)
 
 jQuery Vertical Dot Navigation is a lightweight jQuery plugin that easily allows you to add navigation to a long scrolling page.  The plugin automatically detects the number of content sections on your page and adds a corresponding dot to the navigation.  Clicking on that dot will smoothly scroll the user to its corresponding section.
 
